@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="runtime">
+  <id>org.freedesktop.Sdk.Extension.arm-gnu-toolchain-12-2</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <name>Arm GNU Toolchain Extension</name>
+  <summary>Provides Arm GCC toolchain as an SDK extension.</summary>
+  <url type="homepage">https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain</url>
+  <project_license>GPL-2.0-with-GCC-exception</project_license>
+  <releases>
+    <release version="12.2.MPACBTI-Rel1" date="2023-03-22"/>
+  </releases>
+</component>

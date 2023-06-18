@@ -1,0 +1,53 @@
+id: 'org.freedesktop.Sdk.Extension.arm-gnu-toolchain-12-2'
+branch: '22.08'
+runtime: 'org.freedesktop.Sdk'
+runtime-version: '22.08'
+build-extension: true
+sdk: 'org.freedesktop.Sdk'
+sdk-extensions: []
+separate-locales: false
+appstream-compose: false
+cleanup:
+  - '/share/info'
+  - '/share/man'
+
+modules:
+  - name: arm_toolchain
+    buildsystem: simple
+    # Change the following to use another version
+    sources:
+      - type: file
+        only-arches:
+          - x86_64
+        url: 'https://developer.arm.com/-/media/Files/downloads/gnu/12.2.mpacbti-rel1/binrel/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi.tar.xz'
+        sha256: 17455a06c816031cc2c66243c117cba48463cd6a3a3fdfac7275b4e9c40eb314
+        dest-filename: arm-gnu-toolchain.tar.xz
+      - type: file
+        only-arches:
+          - aarch64
+        url: 'https://developer.arm.com/-/media/Files/downloads/gnu/12.2.mpacbti-rel1/binrel/arm-gnu-toolchain-12.2.mpacbti-rel1-aarch64-arm-none-eabi.tar.xz'
+        sha256: c05f827f8a2b706edccd622716f52a7b1c2a30f3e4ec6a95f187b323ee83109c
+        dest-filename: arm-gnu-toolchain.tar.xz
+    build-commands:
+        - tar -xf arm-gnu-toolchain.tar.xz --strip-components=1 -C $FLATPAK_DEST
+
+  - name: scripts
+    buildsystem: simple
+    sources:
+      - type: 'script'
+        commands:
+          - 'export PATH=$PATH:/usr/lib/sdk/arm-gnu-toolchain-12-2/bin'
+        dest-filename: 'enable.sh'
+    build-commands:
+      - 'cp *.sh ${FLATPAK_DEST}'
+
+  - name: appdata
+    buildsystem: simple
+    sources:
+      - type: file
+        path: org.freedesktop.Sdk.Extension.arm-gnu-toolchain-12-2.appdata.xml
+    build-commands:
+      - mkdir -p ${FLATPAK_DEST}/share/metainfo
+      - cp org.freedesktop.Sdk.Extension.arm-gnu-toolchain-12-2.appdata.xml ${FLATPAK_DEST}/share/metainfo
+      - appstream-compose --basename=org.freedesktop.Sdk.Extension.arm-gnu-toolchain-12-2 --prefix=${FLATPAK_DEST}
+        --origin=flatpak org.freedesktop.Sdk.Extension.arm-gnu-toolchain-12-2
